@@ -755,7 +755,7 @@ async function shareScore() {
 
   const text = [
     `🌤 weathErrr? — ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`,
-    `📍 ${currentCity.name}, ${currentCity.country} (City ${soloRound + 1}/5)`,
+    `📍 ${currentCity.name}, ${currentCity.country} (City ${soloRound + 1}/3)`,
     `🎯 Guess: ${guessedEl} · Actual: ${actualEl}`,
     `⭐ City: ${cityScore} pts · Session: ${sessionTotal} pts`,
     `weatherrr.com`,
