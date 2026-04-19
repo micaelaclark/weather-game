@@ -95,6 +95,125 @@ const CITIES = [
   { name: "Edinburgh", country: "United Kingdom", code: "GB", lat: 55.9533, lon: -3.1883 },
   { name: "Tripoli", country: "Libya", code: "LY", lat: 32.9012, lon: 13.1809 },
   { name: "Algiers", country: "Algeria", code: "DZ", lat: 36.7372, lon: 3.0865 },
+
+  // Africa
+  { name: "Abidjan", country: "Ivory Coast", code: "CI", lat: 5.3599, lon: -4.0083 },
+  { name: "Luanda", country: "Angola", code: "AO", lat: -8.8390, lon: 13.2894 },
+  { name: "Bamako", country: "Mali", code: "ML", lat: 12.6392, lon: -8.0029 },
+  { name: "Ouagadougou", country: "Burkina Faso", code: "BF", lat: 12.3647, lon: -1.5336 },
+  { name: "Kigali", country: "Rwanda", code: "RW", lat: -1.9441, lon: 30.0619 },
+  { name: "Windhoek", country: "Namibia", code: "NA", lat: -22.5597, lon: 17.0832 },
+  { name: "Conakry", country: "Guinea", code: "GN", lat: 9.6412, lon: -13.5784 },
+  { name: "Port Louis", country: "Mauritius", code: "MU", lat: -20.1609, lon: 57.4989 },
+  { name: "Libreville", country: "Gabon", code: "GA", lat: 0.3977, lon: 9.4501 },
+  { name: "Lilongwe", country: "Malawi", code: "MW", lat: -13.9626, lon: 33.7741 },
+  { name: "Djibouti", country: "Djibouti", code: "DJ", lat: 11.5886, lon: 43.1450 },
+  { name: "Douala", country: "Cameroon", code: "CM", lat: 4.0511, lon: 9.7679 },
+  { name: "Freetown", country: "Sierra Leone", code: "SL", lat: 8.4657, lon: -13.2317 },
+  { name: "Lomé", country: "Togo", code: "TG", lat: 6.1375, lon: 1.2123 },
+  { name: "Cotonou", country: "Benin", code: "BJ", lat: 6.3703, lon: 2.3912 },
+  { name: "Asmara", country: "Eritrea", code: "ER", lat: 15.3229, lon: 38.9251 },
+
+  // Southeast Asia
+  { name: "Yangon", country: "Myanmar", code: "MM", lat: 16.8661, lon: 96.1951 },
+  { name: "Phnom Penh", country: "Cambodia", code: "KH", lat: 11.5564, lon: 104.9282 },
+  { name: "Vientiane", country: "Laos", code: "LA", lat: 17.9757, lon: 102.6331 },
+
+  // South America
+  { name: "Caracas", country: "Venezuela", code: "VE", lat: 10.4806, lon: -66.9036 },
+  { name: "Quito", country: "Ecuador", code: "EC", lat: -0.1807, lon: -78.4678 },
+  { name: "La Paz", country: "Bolivia", code: "BO", lat: -16.5000, lon: -68.1500 },
+  { name: "Asunción", country: "Paraguay", code: "PY", lat: -25.2867, lon: -57.6470 },
+  { name: "Montevideo", country: "Uruguay", code: "UY", lat: -34.9011, lon: -56.1645 },
+  { name: "Medellín", country: "Colombia", code: "CO", lat: 6.2442, lon: -75.5812 },
+  { name: "Recife", country: "Brazil", code: "BR", lat: -8.0578, lon: -34.8829 },
+  { name: "Manaus", country: "Brazil", code: "BR", lat: -3.1190, lon: -60.0217 },
+  { name: "Brasília", country: "Brazil", code: "BR", lat: -15.7797, lon: -47.9297 },
+  { name: "Georgetown", country: "Guyana", code: "GY", lat: 6.8013, lon: -58.1551 },
+  { name: "Paramaribo", country: "Suriname", code: "SR", lat: 5.8520, lon: -55.2038 },
+
+  // Central America & Caribbean
+  { name: "Guatemala City", country: "Guatemala", code: "GT", lat: 14.6349, lon: -90.5069 },
+  { name: "San José", country: "Costa Rica", code: "CR", lat: 9.9281, lon: -84.0907 },
+  { name: "Panama City", country: "Panama", code: "PA", lat: 8.9936, lon: -79.5197 },
+  { name: "Tegucigalpa", country: "Honduras", code: "HN", lat: 14.0723, lon: -87.2035 },
+  { name: "Managua", country: "Nicaragua", code: "NI", lat: 12.1328, lon: -86.2826 },
+  { name: "Kingston", country: "Jamaica", code: "JM", lat: 17.9970, lon: -76.7936 },
+  { name: "Santo Domingo", country: "Dominican Republic", code: "DO", lat: 18.4861, lon: -69.9312 },
+  { name: "Port-au-Prince", country: "Haiti", code: "HT", lat: 18.5944, lon: -72.3074 },
+  { name: "Port of Spain", country: "Trinidad & Tobago", code: "TT", lat: 10.6918, lon: -61.2225 },
+
+  // North America
+  { name: "Montreal", country: "Canada", code: "CA", lat: 45.5017, lon: -73.5673 },
+  { name: "Calgary", country: "Canada", code: "CA", lat: 51.0447, lon: -114.0719 },
+  { name: "Denver", country: "United States", code: "US", lat: 39.7392, lon: -104.9903 },
+  { name: "Seattle", country: "United States", code: "US", lat: 47.6062, lon: -122.3321 },
+  { name: "Atlanta", country: "United States", code: "US", lat: 33.7490, lon: -84.3880 },
+  { name: "Phoenix", country: "United States", code: "US", lat: 33.4484, lon: -112.0740 },
+  { name: "Boston", country: "United States", code: "US", lat: 42.3601, lon: -71.0589 },
+  { name: "Dallas", country: "United States", code: "US", lat: 32.7767, lon: -96.7970 },
+  { name: "Houston", country: "United States", code: "US", lat: 29.7604, lon: -95.3698 },
+  { name: "Minneapolis", country: "United States", code: "US", lat: 44.9778, lon: -93.2650 },
+  { name: "New Orleans", country: "United States", code: "US", lat: 29.9511, lon: -90.0715 },
+  { name: "Las Vegas", country: "United States", code: "US", lat: 36.1699, lon: -115.1398 },
+  { name: "Portland", country: "United States", code: "US", lat: 45.5231, lon: -122.6765 },
+
+  // Europe
+  { name: "Belgrade", country: "Serbia", code: "RS", lat: 44.7866, lon: 20.4489 },
+  { name: "Zagreb", country: "Croatia", code: "HR", lat: 45.8150, lon: 15.9819 },
+  { name: "Bratislava", country: "Slovakia", code: "SK", lat: 48.1486, lon: 17.1077 },
+  { name: "Ljubljana", country: "Slovenia", code: "SI", lat: 46.0569, lon: 14.5058 },
+  { name: "Sarajevo", country: "Bosnia", code: "BA", lat: 43.8476, lon: 18.3564 },
+  { name: "Tirana", country: "Albania", code: "AL", lat: 41.3275, lon: 19.8187 },
+  { name: "Skopje", country: "North Macedonia", code: "MK", lat: 41.9981, lon: 21.4254 },
+  { name: "Podgorica", country: "Montenegro", code: "ME", lat: 42.4304, lon: 19.2594 },
+  { name: "Vilnius", country: "Lithuania", code: "LT", lat: 54.6872, lon: 25.2797 },
+  { name: "Valletta", country: "Malta", code: "MT", lat: 35.8997, lon: 14.5147 },
+  { name: "Nicosia", country: "Cyprus", code: "CY", lat: 35.1856, lon: 33.3823 },
+  { name: "Chisinau", country: "Moldova", code: "MD", lat: 47.0105, lon: 28.8638 },
+  { name: "Luxembourg City", country: "Luxembourg", code: "LU", lat: 49.6116, lon: 6.1319 },
+  { name: "Barcelona", country: "Spain", code: "ES", lat: 41.3851, lon: 2.1734 },
+  { name: "Seville", country: "Spain", code: "ES", lat: 37.3891, lon: -5.9845 },
+  { name: "Milan", country: "Italy", code: "IT", lat: 45.4654, lon: 9.1859 },
+  { name: "Naples", country: "Italy", code: "IT", lat: 40.8518, lon: 14.2681 },
+  { name: "Porto", country: "Portugal", code: "PT", lat: 41.1579, lon: -8.6291 },
+  { name: "Lyon", country: "France", code: "FR", lat: 45.7640, lon: 4.8357 },
+  { name: "Manchester", country: "United Kingdom", code: "GB", lat: 53.4808, lon: -2.2426 },
+  { name: "Bern", country: "Switzerland", code: "CH", lat: 46.9480, lon: 7.4474 },
+
+  // Middle East
+  { name: "Amman", country: "Jordan", code: "JO", lat: 31.9454, lon: 35.9284 },
+  { name: "Beirut", country: "Lebanon", code: "LB", lat: 33.8938, lon: 35.5018 },
+  { name: "Muscat", country: "Oman", code: "OM", lat: 23.5880, lon: 58.3829 },
+  { name: "Doha", country: "Qatar", code: "QA", lat: 25.2854, lon: 51.5310 },
+  { name: "Kuwait City", country: "Kuwait", code: "KW", lat: 29.3759, lon: 47.9774 },
+  { name: "Tel Aviv", country: "Israel", code: "IL", lat: 32.0853, lon: 34.7818 },
+  { name: "Ankara", country: "Turkey", code: "TR", lat: 39.9334, lon: 32.8597 },
+  { name: "Manama", country: "Bahrain", code: "BH", lat: 26.2235, lon: 50.5876 },
+
+  // Asia
+  { name: "Delhi", country: "India", code: "IN", lat: 28.7041, lon: 77.1025 },
+  { name: "Bangalore", country: "India", code: "IN", lat: 12.9716, lon: 77.5946 },
+  { name: "Chennai", country: "India", code: "IN", lat: 13.0827, lon: 80.2707 },
+  { name: "Kolkata", country: "India", code: "IN", lat: 22.5726, lon: 88.3639 },
+  { name: "Hyderabad", country: "India", code: "IN", lat: 17.3850, lon: 78.4867 },
+  { name: "Shanghai", country: "China", code: "CN", lat: 31.2304, lon: 121.4737 },
+  { name: "Guangzhou", country: "China", code: "CN", lat: 23.1291, lon: 113.2644 },
+  { name: "Chengdu", country: "China", code: "CN", lat: 30.5728, lon: 104.0668 },
+  { name: "Busan", country: "South Korea", code: "KR", lat: 35.1796, lon: 129.0756 },
+  { name: "Sapporo", country: "Japan", code: "JP", lat: 43.0618, lon: 141.3545 },
+  { name: "Fukuoka", country: "Japan", code: "JP", lat: 33.5904, lon: 130.4017 },
+  { name: "Bishkek", country: "Kyrgyzstan", code: "KG", lat: 42.8746, lon: 74.5698 },
+  { name: "Dushanbe", country: "Tajikistan", code: "TJ", lat: 38.5598, lon: 68.7870 },
+  { name: "Ashgabat", country: "Turkmenistan", code: "TM", lat: 37.9601, lon: 58.3261 },
+  { name: "Astana", country: "Kazakhstan", code: "KZ", lat: 51.1801, lon: 71.4460 },
+  { name: "Lahore", country: "Pakistan", code: "PK", lat: 31.5204, lon: 74.3587 },
+
+  // Oceania
+  { name: "Brisbane", country: "Australia", code: "AU", lat: -27.4698, lon: 153.0251 },
+  { name: "Darwin", country: "Australia", code: "AU", lat: -12.4634, lon: 130.8456 },
+  { name: "Suva", country: "Fiji", code: "FJ", lat: -18.1416, lon: 178.4419 },
+  { name: "Port Moresby", country: "Papua New Guinea", code: "PG", lat: -9.4438, lon: 147.1803 },
 ];
 
 const WMO_CODES = {
@@ -549,11 +668,11 @@ function triggerSparkles(anchor) {
       font-size: ${1.4 + Math.random() * 2}rem;
       --dx: ${Math.cos(angle * Math.PI / 180) * dist}px;
       --dy: ${Math.sin(angle * Math.PI / 180) * dist}px;
-      animation-delay: ${(Math.random() * 0.25).toFixed(2)}s;
-      animation-duration: ${(1.8 + Math.random() * 1).toFixed(2)}s;
+      animation-delay: ${(Math.random() * 0.3).toFixed(2)}s;
+      animation-duration: ${(3 + Math.random() * 2).toFixed(2)}s;
     `;
     document.body.appendChild(el);
-    setTimeout(() => el.remove(), 3500);
+    setTimeout(() => el.remove(), 6000);
   }
 }
 
@@ -586,8 +705,6 @@ function showResult(actualC, guessC, diff, score, runningTotal, condition, isLas
   }
 
   diffEl.className = 'diff-badge ' + (absDiff <= 1 ? 'great' : absDiff <= 5 ? 'good' : 'off');
-
-  if (absDiff <= 5) triggerSparkles(diffEl);
 
   document.getElementById('todayScore').textContent = score;
   document.getElementById('totalScore').textContent = runningTotal;
@@ -641,6 +758,7 @@ async function shareScore() {
     `📍 ${currentCity.name}, ${currentCity.country} (City ${soloRound + 1}/5)`,
     `🎯 Guess: ${guessedEl} · Actual: ${actualEl}`,
     `⭐ City: ${cityScore} pts · Session: ${sessionTotal} pts`,
+    `weatherrr.com`,
   ].join('\n');
 
   const btn = document.getElementById('shareBtn');
@@ -718,6 +836,7 @@ function shareEndScore() {
     `🌤 weathErrr? — ${date}`,
     `⭐ ${sessionScore} / 3000 pts (${pct}%)`,
     `${message}`,
+    `weatherrr.com`,
   ].join('\n');
 
   const btn = document.querySelector('#endCard .submit-btn');
