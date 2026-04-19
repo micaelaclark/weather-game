@@ -11,9 +11,7 @@
   <div class="game-container">
     <header>
       <div class="header-top">
-        <button class="lb-btn" onclick="openLeaderboard()">Leaderboard</button>
         <h1 onclick="goHome()" style="cursor:pointer">weathErrr?</h1>
-        <button class="save-btn" id="saveBtn" onclick="openSaveStats()">Save stats</button>
       </div>
       <div class="date" id="date"></div>
     </header>
@@ -153,6 +151,11 @@
     </div>
   </div>
 
+  <div class="fab-group">
+    <button class="lb-fab" id="saveBtn" onclick="openSaveStats()">🙂</button>
+    <button class="lb-fab" onclick="openLeaderboard()">🏆</button>
+  </div>
+
   <div class="modal-overlay" id="lbModal" style="display:none" onclick="closeLb(event)">
     <div class="modal-content">
       <button class="close-btn" onclick="closeLb()">×</button>
@@ -169,6 +172,8 @@
       <h2>Save Your Stats</h2>
       <p class="save-description">Pick a screenname and your scores will be saved to this device.</p>
       <input class="auth-input" type="text" id="screennameInput" placeholder="Your screenname" maxlength="20" onkeydown="if(event.key==='Enter')saveScreenname()">
+      <p class="emoji-label">Pick an emoji (optional)</p>
+      <div class="emoji-grid" id="emojiGrid"></div>
       <button class="submit-btn" onclick="saveScreenname()">Save</button>
       <p class="auth-error" id="saveError"></p>
     </div>

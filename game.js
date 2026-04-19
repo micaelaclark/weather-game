@@ -110,6 +110,9 @@ const WMO_CODES = {
 
 const STORAGE_KEY    = 'weather-game-v2';
 const SCREENNAME_KEY = 'wg-screenname';
+const EMOJI_KEY      = 'wg-emoji';
+
+const EMOJIS = ['☀️','🌤️','⛅','🌧️','⛈️','❄️','🌊','🌪️','🌈','🔥','💨','🌙','⭐','💫','⚡','🌍','🌎','🌏','🧊','🌡️','🦋','🐉','👑','💎','🚀','🎯','🦁','🦊','🐺','👽','🤖','🌺','🍀','🏆','🎭'];
 
 const SUPABASE_URL = 'https://alvqsasgudqynhapexxm.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdnFzYXNndWRxeW5oYXBleHhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NDI3MTgsImV4cCI6MjA5MjExODcxOH0.TF1wofDSPupWF22h2SdgVCkm2iS0VRf7K8X-t-9IrV4';
@@ -144,6 +147,26 @@ function getScreenname() {
   return localStorage.getItem(SCREENNAME_KEY) || null;
 }
 
+function getEmoji() {
+  return localStorage.getItem(EMOJI_KEY) || '';
+}
+
+function renderEmojiGrid(selected) {
+  const grid = document.getElementById('emojiGrid');
+  grid.innerHTML = '';
+  EMOJIS.forEach(emoji => {
+    const btn = document.createElement('button');
+    btn.className = 'emoji-opt' + (emoji === selected ? ' selected' : '');
+    btn.textContent = emoji;
+    btn.type = 'button';
+    btn.onclick = () => {
+      document.querySelectorAll('.emoji-opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    };
+    grid.appendChild(btn);
+  });
+}
+
 function loadState() {
   const name = getScreenname();
   const key  = name ? `wg-stats-${name}` : STORAGE_KEY;
@@ -164,6 +187,7 @@ function openSaveStats() {
   const input = document.getElementById('screennameInput');
   input.value = current || '';
   document.getElementById('saveError').textContent = '';
+  renderEmojiGrid(getEmoji());
   document.getElementById('saveModal').style.display = 'flex';
   input.focus();
 }
@@ -180,7 +204,9 @@ function saveScreenname() {
   if (!name) { errorEl.textContent = 'Please enter a screenname.'; return; }
   if (name.length < 2 || name.length > 20) { errorEl.textContent = 'Must be 2–20 characters.'; return; }
 
+  const selectedBtn = document.querySelector('.emoji-opt.selected');
   localStorage.setItem(SCREENNAME_KEY, name);
+  localStorage.setItem(EMOJI_KEY, selectedBtn ? selectedBtn.textContent : '');
   updateSaveBtn();
   document.getElementById('saveModal').style.display = 'none';
 }
@@ -189,12 +215,12 @@ function updateSaveBtn() {
   const name = getScreenname();
   const btn  = document.getElementById('saveBtn');
   if (name) {
-    btn.textContent = name;
-    btn.classList.add('save-btn-active');
+    btn.textContent = '😎';
+    btn.title = name;
     btn.onclick = openStats;
   } else {
-    btn.textContent = 'Save stats';
-    btn.classList.remove('save-btn-active');
+    btn.textContent = '🙂';
+    btn.title = 'Save stats';
     btn.onclick = openSaveStats;
   }
 }
@@ -205,6 +231,7 @@ async function syncToSupabase(name, stats) {
   if (!name) return;
   await db.from('scores').upsert({
     screenname: name,
+    emoji: getEmoji(),
     games_played: stats.gamesPlayed || 0,
     total_score: stats.totalScore || 0,
     best_game: stats.bestGame || 0,
@@ -242,7 +269,7 @@ async function openLeaderboard() {
     div.className = 'lb-row' + (isMe ? ' lb-row-me' : '');
     div.innerHTML = `
       <span class="lb-rank">${i + 1}</span>
-      <span class="lb-name">${row.screenname}${isMe ? ' ★' : ''}</span>
+      <span class="lb-name">${row.emoji ? row.emoji + ' ' : ''}${row.screenname}${isMe ? ' ★' : ''}</span>
       <span class="lb-score">${(row.total_score || 0).toLocaleString()}</span>
     `;
     document.getElementById('lbList').appendChild(div);
@@ -266,17 +293,24 @@ function closeLb(e) {
 // --- City photo ---
 
 async function loadCityPhoto(city) {
+  const img = document.getElementById('cityPhoto');
+  img.style.display = 'none';
+  img.src = '';
   try {
     const title = encodeURIComponent(city.wiki || city.name);
-    const res   = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${title}`);
+    const url = `https://en.wikipedia.org/w/api.php?action=query&titles=${title}&prop=pageimages&format=json&pithumbsize=800&origin=*`;
+    const res  = await fetch(url);
     if (!res.ok) return;
-    const data  = await res.json();
-    if (!data.thumbnail) return;
-    const src = data.thumbnail.source.replace(/\d+px/, '800px');
-    const img = document.getElementById('cityPhoto');
-    img.onload = () => { img.style.display = 'block'; };
-    img.src = src;
-  } catch {}
+    const data = await res.json();
+    const page = Object.values(data.query.pages)[0];
+    if (!page.thumbnail) return;
+    img.onload  = () => { img.style.display = 'block'; };
+    img.onerror = () => { img.style.display = 'none'; };
+    img.src = page.thumbnail.source;
+    if (img.complete) img.style.display = 'block';
+  } catch {
+    img.style.display = 'none';
+  }
 }
 
 // --- Climate data ---

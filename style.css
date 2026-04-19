@@ -16,7 +16,26 @@ body {
   padding: 28px 16px 52px;
 }
 
+body::before {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1440px;
+  height: 1440px;
+  background-image: url('427-4271167_clip-art-mundo-terra-dos-animados-transparent-background.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.12;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .game-container {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 480px;
   display: flex;
@@ -79,25 +98,34 @@ h1 {
   color: #111827;
 }
 
-.lb-btn {
-  position: absolute;
-  left: 0;
-  background: transparent;
-  border: 1px solid #e0e0e0;
-  color: #6b7280;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-family: 'Lexend', sans-serif;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
-  white-space: nowrap;
+.fab-group {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  display: flex;
+  gap: 12px;
+  z-index: 50;
 }
 
-.lb-btn:hover {
-  border-color: #111827;
-  color: #111827;
+.lb-fab {
+  position: static;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #111827;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.lb-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.22);
 }
 
 .lb-loading {
@@ -139,6 +167,47 @@ h1 {
   font-size: 0.8rem;
   color: #9ca3af;
   margin-top: 8px;
+}
+
+.emoji-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+.emoji-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.emoji-opt {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #e8e8ec;
+  border-radius: 10px;
+  background: #f8f8fa;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s;
+  padding: 0;
+}
+
+.emoji-opt:hover {
+  border-color: #111827;
+  background: #ffffff;
+  transform: scale(1.1);
+}
+
+.emoji-opt.selected {
+  border-color: #111827;
+  background: #111827;
 }
 
 .save-description {
