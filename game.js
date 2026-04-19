@@ -210,6 +210,7 @@ function saveScreenname() {
   localStorage.setItem(EMOJI_KEY, selectedBtn ? selectedBtn.textContent : '');
   updateSaveBtn();
   document.getElementById('saveModal').style.display = 'none';
+  syncToSupabase(name, loadState());
 }
 
 function updateSaveBtn() {
