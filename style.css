@@ -448,6 +448,81 @@ h1 {
   margin: 8px 0 16px;
 }
 
+/* End screen city cards */
+.end-cities {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.end-cities-loading {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  text-align: center;
+  padding: 12px 0;
+}
+
+.end-city-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e8e8ec;
+  border-radius: 18px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.end-city-photo {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.end-city-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.end-city-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.end-city-flag {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.end-city-name {
+  flex: 1;
+  font-family: 'Lexend Mega', sans-serif;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.end-city-score {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #9ca3af;
+  background: #f8f8fa;
+  border: 1px solid #e8e8ec;
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+.end-city-extract {
+  font-size: 0.8rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
 /* Scoring guide */
 .scoring-guide {
   margin-top: 20px;

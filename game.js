@@ -122,9 +122,10 @@ let unit = 'C';
 let actualTempC = null;
 let actualCondition = '';
 let currentCity = null;
-let soloRound = 0;       // 0–4
-let sessionCities = [];  // 5 randomly picked cities
-let sessionScore = 0;    // running total for current session
+let soloRound = 0;
+let sessionCities = [];
+let sessionScore = 0;
+let sessionResults = []; // per-city: { city, guessC, actualC, score }
 
 // --- Helpers ---
 
@@ -313,6 +314,23 @@ async function loadCityPhoto(city) {
   }
 }
 
+// --- City wiki card (used on end screen) ---
+
+async function fetchCityWikiCard(city) {
+  try {
+    const title = encodeURIComponent(city.wiki || city.name);
+    const url = `https://en.wikipedia.org/w/api.php?action=query&titles=${title}&prop=pageimages|extracts&exintro=true&exchars=200&format=json&pithumbsize=800&origin=*`;
+    const res  = await fetch(url);
+    if (!res.ok) return null;
+    const data = await res.json();
+    const page = Object.values(data.query.pages)[0];
+    return {
+      photo:   page.thumbnail?.source || null,
+      extract: page.extract ? page.extract.replace(/<[^>]+>/g, '').trim() : null
+    };
+  } catch { return null; }
+}
+
 // --- Climate data ---
 
 async function loadClimateData(city) {
@@ -428,6 +446,7 @@ async function startGame() {
   soloRound = 0;
   sessionScore = 0;
   sessionCities = pickSessionCities();
+  sessionResults = [];
 
   document.getElementById('resultCard').style.display = 'none';
   document.getElementById('guessSection').style.display = 'none';
@@ -490,6 +509,8 @@ function submitGuess() {
 
   document.getElementById('guessSection').style.display = 'none';
 
+  sessionResults.push({ city: currentCity, guessC, actualC: actualTempC, score });
+
   const isLast = soloRound === 2;
   showResult(actualTempC, guessC, diff, score, sessionScore, actualCondition, isLast);
 
@@ -502,7 +523,6 @@ function submitGuess() {
     syncToSupabase(getScreenname(), state);
   }
 
-  loadCityPhoto(currentCity);
   loadClimateData(currentCity);
 }
 
@@ -644,7 +664,7 @@ function copyFallback(text, btn) {
 
 // --- End screen ---
 
-function showEndCard() {
+async function showEndCard() {
   const pct = sessionScore / 3000;
   let message;
   if (pct < 0.5)       message = "You just got weathered.";
@@ -659,7 +679,33 @@ function showEndCard() {
   document.getElementById('cityCard').style.display = 'none';
   document.getElementById('resultCard').style.display = 'none';
   document.getElementById('guessSection').style.display = 'none';
+  const photoEl = document.getElementById('cityPhoto');
+  photoEl.style.display = 'none'; photoEl.src = '';
   document.getElementById('endCard').style.display = 'flex';
+
+  // Fetch wiki + photos for all 3 cities in parallel
+  const citiesEl = document.getElementById('endCities');
+  citiesEl.innerHTML = '<p class="end-cities-loading">Loading city info...</p>';
+  const cards = await Promise.all(sessionResults.map(r => fetchCityWikiCard(r.city)));
+
+  citiesEl.innerHTML = '';
+  sessionResults.forEach((result, i) => {
+    const wiki = cards[i];
+    const div  = document.createElement('div');
+    div.className = 'end-city-card';
+    div.innerHTML = `
+      ${wiki?.photo ? `<img class="end-city-photo" src="${wiki.photo}" alt="${result.city.name}">` : ''}
+      <div class="end-city-body">
+        <div class="end-city-header">
+          <span class="end-city-flag">${getFlag(result.city.code)}</span>
+          <span class="end-city-name">${result.city.name}</span>
+          <span class="end-city-score">${result.score} pts</span>
+        </div>
+        ${wiki?.extract ? `<p class="end-city-extract">${wiki.extract}</p>` : ''}
+      </div>
+    `;
+    citiesEl.appendChild(div);
+  });
 }
 
 function shareEndScore() {
