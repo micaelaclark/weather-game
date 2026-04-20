@@ -353,7 +353,7 @@ function saveScreenname() {
   syncToSupabase(name, loadState());
 }
 
-function updateSaveBtn() {
+async function updateSaveBtn() {
   const name = getScreenname();
   const btn  = document.getElementById('saveBtn');
   if (name) {
@@ -370,6 +370,12 @@ function updateSaveBtn() {
     const streak = loadState().streak || 0;
     const streakText = streak >= 2 ? `  🔥 ${streak}` : '';
     intro.textContent = `welcome back, ${name} 👋${streakText}`;
+    try {
+      const state = loadState();
+      const { count } = await db.from('scores').select('*', { count: 'exact', head: true }).gt('total_score', state.totalScore || 0);
+      const rank = (count || 0) + 1;
+      intro.textContent = `welcome back, ${name} 👋${streakText}  —  you're the #${rank} best player in the world`;
+    } catch {}
   } else {
     intro.textContent = 'hello my fair weatherd friends the game is to guess the live weather in each place you\'ll get three cities each day it\'ll change scoring below have fun';
   }
@@ -601,7 +607,11 @@ function dateToSeed(dateStr) {
 
 function pickSessionCities() {
   const rand = seededRandom(dateToSeed(getTodayString()));
-  const shuffled = [...CITIES].sort(() => rand() - 0.5);
+  const shuffled = [...CITIES];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
   return shuffled.slice(0, 3);
 }
 
@@ -792,7 +802,6 @@ function showResult(actualC, guessC, diff, score, runningTotal, condition, isLas
   }
 
   document.getElementById('resultCard').style.display = 'flex';
-  document.getElementById('saveScoreBtn').style.display = getScreenname() ? 'none' : 'block';
 }
 
 // --- Next city ---
