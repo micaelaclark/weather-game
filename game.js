@@ -936,7 +936,8 @@ async function showEndCard() {
   else if (pct < 0.90) message = "So close";
   else                 message = "you're the weather master";
 
-  document.getElementById('endScore').textContent = sessionScore;
+  const state = loadState();
+  document.getElementById('endScore').textContent = state.totalScore;
   document.getElementById('endPct').textContent = Math.round(pct * 100) + '%';
   document.getElementById('endMessage').textContent = message;
 
