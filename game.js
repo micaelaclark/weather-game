@@ -216,6 +216,57 @@ const CITIES = [
   { name: "Port Moresby", country: "Papua New Guinea", code: "PG", lat: -9.4438, lon: 147.1803 },
 ];
 
+const CITY_REGIONS = {
+  // United States
+  "New York-US": "New York", "Los Angeles-US": "California", "Chicago-US": "Illinois",
+  "Miami-US": "Florida", "Anchorage-US": "Alaska", "Honolulu-US": "Hawaii",
+  "Denver-US": "Colorado", "Seattle-US": "Washington", "Atlanta-US": "Georgia",
+  "Phoenix-US": "Arizona", "Boston-US": "Massachusetts", "Dallas-US": "Texas",
+  "Houston-US": "Texas", "Minneapolis-US": "Minnesota", "New Orleans-US": "Louisiana",
+  "Las Vegas-US": "Nevada", "Portland-US": "Oregon",
+  // Canada
+  "Toronto-CA": "Ontario", "Vancouver-CA": "British Columbia",
+  "Montreal-CA": "Quebec", "Calgary-CA": "Alberta",
+  // Australia
+  "Sydney-AU": "New South Wales", "Melbourne-AU": "Victoria", "Brisbane-AU": "Queensland",
+  "Perth-AU": "Western Australia", "Darwin-AU": "Northern Territory",
+  // United Kingdom
+  "London-GB": "England", "Edinburgh-GB": "Scotland", "Manchester-GB": "England",
+  // India
+  "Mumbai-IN": "Maharashtra", "Delhi-IN": "Delhi", "Bangalore-IN": "Karnataka",
+  "Chennai-IN": "Tamil Nadu", "Kolkata-IN": "West Bengal", "Hyderabad-IN": "Telangana",
+  // Brazil
+  "Rio de Janeiro-BR": "Rio de Janeiro", "Recife-BR": "Pernambuco",
+  "Manaus-BR": "Amazonas", "Brasília-BR": "Distrito Federal",
+  // China
+  "Beijing-CN": "Beijing", "Shanghai-CN": "Shanghai",
+  "Guangzhou-CN": "Guangdong", "Chengdu-CN": "Sichuan",
+  // Japan
+  "Osaka-JP": "Osaka", "Sapporo-JP": "Hokkaido", "Fukuoka-JP": "Fukuoka",
+  // Spain
+  "Madrid-ES": "Madrid", "Barcelona-ES": "Catalonia", "Seville-ES": "Andalusia",
+  // Italy
+  "Rome-IT": "Lazio", "Milan-IT": "Lombardy", "Naples-IT": "Campania",
+  // South Africa
+  "Cape Town-ZA": "Western Cape", "Johannesburg-ZA": "Gauteng",
+  // Pakistan
+  "Karachi-PK": "Sindh", "Islamabad-PK": "Islamabad Capital Territory", "Lahore-PK": "Punjab",
+  // Morocco
+  "Casablanca-MA": "Casablanca-Settat", "Marrakech-MA": "Marrakesh-Safi",
+  // Colombia
+  "Bogotá-CO": "Cundinamarca", "Medellín-CO": "Antioquia",
+  // France
+  "Paris-FR": "Île-de-France", "Lyon-FR": "Auvergne-Rhône-Alpes",
+  // Switzerland
+  "Zurich-CH": "Zurich Canton", "Bern-CH": "Bern Canton",
+  // Kazakhstan
+  "Almaty-KZ": "Almaty", "Astana-KZ": "Akmola",
+};
+
+function getCityRegion(city) {
+  return CITY_REGIONS[`${city.name}-${city.code}`] || null;
+}
+
 const WMO_CODES = {
   0: "Clear sky", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
   45: "Foggy", 48: "Icy fog",
@@ -662,7 +713,8 @@ async function loadCity(city) {
 
   document.getElementById('cityFlag').textContent = getFlag(city.code);
   document.getElementById('cityName').textContent = city.name;
-  document.getElementById('cityCountry').textContent = city.country;
+  const region = getCityRegion(city);
+  document.getElementById('cityCountry').textContent = region ? `${city.country} · ${region}` : city.country;
 
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&timezone=auto`;
@@ -833,7 +885,7 @@ async function shareScore() {
 
   const text = [
     `🌤 weathErrr? — ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`,
-    `📍 ${currentCity.name}, ${currentCity.country} (City ${soloRound + 1}/3)`,
+    `📍 ${currentCity.name}${getCityRegion(currentCity) ? `, ${getCityRegion(currentCity)}` : ''}, ${currentCity.country} (City ${soloRound + 1}/3)`,
     `🎯 Guess: ${guessedEl} · Actual: ${actualEl}`,
     `⭐ City: ${cityScore} pts · Session: ${sessionTotal} pts`,
     `weatherrr.com`,
@@ -859,6 +911,21 @@ function copyFallback(text, btn) {
   });
 }
 
+// --- Workout recommendation ---
+
+function getWorkoutRecommendation(results) {
+  const avgTemp = results.reduce((sum, r) => sum + r.actualC, 0) / results.length;
+  const tiers = [
+    { max: -5,       workout: "🔥 Hot yoga or indoor HIIT",          reason: "Today's cities are freezing — warm up from the inside." },
+    { max: 5,        workout: "🏋️ Strength training",                reason: "Cold temps out there — a solid weights session is the move." },
+    { max: 15,       workout: "🏃 Tempo run or indoor cardio",        reason: "Cool conditions today — great for pushing your pace." },
+    { max: 22,       workout: "🚴 Outdoor ride or long run",          reason: "Mild weather worldwide — perfect for endurance work." },
+    { max: 30,       workout: "⛹️ Court sports or interval training", reason: "Warm conditions today — keep moving and stay hydrated." },
+    { max: Infinity, workout: "🏊 Swimming or early morning run",     reason: "It's scorching across today's cities — keep it cool." },
+  ];
+  return { ...tiers.find(t => avgTemp < t.max), avgTemp };
+}
+
 // --- End screen ---
 
 async function showEndCard() {
@@ -869,7 +936,8 @@ async function showEndCard() {
   else if (pct < 0.90) message = "So close";
   else                 message = "you're the weather master";
 
-  document.getElementById('endScore').textContent = sessionScore;
+  const state = loadState();
+  document.getElementById('endScore').textContent = state.totalScore;
   document.getElementById('endPct').textContent = Math.round(pct * 100) + '%';
   document.getElementById('endMessage').textContent = message;
 
@@ -880,6 +948,11 @@ async function showEndCard() {
   photoEl.style.display = 'none'; photoEl.src = '';
   document.getElementById('endCard').style.display = 'flex';
   document.getElementById('saveScoreBtnEnd').style.display = getScreenname() ? 'none' : 'block';
+
+  const rec = getWorkoutRecommendation(sessionResults);
+  document.getElementById('workoutRecTitle').textContent = rec.workout;
+  document.getElementById('workoutRecReason').textContent = rec.reason;
+  document.getElementById('workoutRec').style.display = 'block';
 
   // Fetch wiki + photos for all 3 cities in parallel
   const citiesEl = document.getElementById('endCities');
@@ -896,7 +969,7 @@ async function showEndCard() {
       <div class="end-city-body">
         <div class="end-city-header">
           <span class="end-city-flag">${getFlag(result.city.code)}</span>
-          <span class="end-city-name">${result.city.name}</span>
+          <span class="end-city-name">${result.city.name}${getCityRegion(result.city) ? `, ${getCityRegion(result.city)}` : ''}</span>
           <span class="end-city-score">${result.score} pts</span>
         </div>
         ${wiki?.extract ? `<p class="end-city-extract">${wiki.extract}</p>` : ''}
@@ -906,7 +979,7 @@ async function showEndCard() {
   });
 }
 
-function shareEndScore() {
+async function shareEndScore() {
   const pct = Math.round(sessionScore / 3000 * 100);
   const message = document.getElementById('endMessage').textContent;
   const date = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -919,7 +992,15 @@ function shareEndScore() {
   ].join('\n');
 
   const btn = document.querySelector('#endCard .share-btn');
-  copyFallback(text, btn);
+  if (navigator.share) {
+    try {
+      await navigator.share({ text });
+    } catch (e) {
+      if (e.name !== 'AbortError') copyFallback(text, btn);
+    }
+  } else {
+    copyFallback(text, btn);
+  }
 }
 
 // --- Stats modal ---
