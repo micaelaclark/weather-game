@@ -98,6 +98,118 @@ h1 {
   color: #111827;
 }
 
+/* Username nudge banner */
+.username-nudge {
+  position: fixed;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #111827;
+  color: #fff;
+  border-radius: 18px;
+  padding: 16px 18px;
+  width: min(360px, calc(100vw - 32px));
+  box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+.username-nudge.nudge-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.nudge-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+.nudge-close:hover { color: #fff; }
+.nudge-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.nudge-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+.nudge-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.nudge-text strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.nudge-text span {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+.nudge-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.nudge-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid #374151;
+  background: #1f2937;
+  color: #fff;
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.88rem;
+  outline: none;
+}
+.nudge-input::placeholder { color: #6b7280; }
+.nudge-input:focus { border-color: #6b7280; }
+.nudge-emoji-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.nudge-emoji-opt {
+  background: #1f2937;
+  border: 1.5px solid #374151;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.nudge-emoji-opt:hover { border-color: #6b7280; }
+.nudge-emoji-opt.selected { border-color: #fff; }
+.nudge-save-btn {
+  width: 100%;
+  padding: 11px;
+  background: #fff;
+  color: #111827;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.nudge-save-btn:hover { background: #f3f4f6; }
+
 .fab-group {
   position: fixed;
   bottom: 28px;

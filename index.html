@@ -184,6 +184,23 @@
     </div>
   </div>
 
+  <!-- Return-user username nudge -->
+  <div class="username-nudge" id="usernameNudge" style="display:none">
+    <button class="nudge-close" onclick="dismissUsernameNudge()">×</button>
+    <div class="nudge-body">
+      <div class="nudge-icon">🌍</div>
+      <div class="nudge-text">
+        <strong>Save your username</strong>
+        <span>See where you stack up globally</span>
+      </div>
+    </div>
+    <div class="nudge-inputs">
+      <input class="nudge-input" type="text" id="nudgeNameInput" placeholder="Your name" maxlength="20">
+      <div class="nudge-emoji-row" id="nudgeEmojiRow"></div>
+    </div>
+    <button class="nudge-save-btn" onclick="saveFromNudge()">Save &amp; rank me</button>
+  </div>
+
   <div class="fab-group">
     <button class="lb-fab" id="saveBtn" onclick="openSaveStats()">🙂</button>
     <button class="lb-fab" onclick="openLeaderboard()">🏆</button>

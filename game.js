@@ -1021,6 +1021,58 @@ function goHome() {
   startGame();
 }
 
+// --- Username nudge ---
+
+const NUDGE_DISMISSED_KEY = 'wg-nudge-dismissed';
+const NUDGE_EMOJIS = ['😎','🌍','🌦️','🔥','⚡','🏆','🌊','❄️','🌈','🐉'];
+
+function maybeShowUsernameNudge() {
+  if (getScreenname()) return;
+  if (localStorage.getItem(NUDGE_DISMISSED_KEY)) return;
+  const state = loadState();
+  if (!(state.gamesPlayed >= 1)) return;
+
+  const nudge = document.getElementById('usernameNudge');
+  const emojiRow = document.getElementById('nudgeEmojiRow');
+  emojiRow.innerHTML = '';
+  NUDGE_EMOJIS.forEach(e => {
+    const btn = document.createElement('button');
+    btn.className = 'nudge-emoji-opt';
+    btn.textContent = e;
+    btn.onclick = () => {
+      emojiRow.querySelectorAll('.nudge-emoji-opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.toggle('selected');
+    };
+    emojiRow.appendChild(btn);
+  });
+
+  nudge.style.display = 'block';
+  requestAnimationFrame(() => nudge.classList.add('nudge-visible'));
+}
+
+function dismissUsernameNudge() {
+  localStorage.setItem(NUDGE_DISMISSED_KEY, '1');
+  const nudge = document.getElementById('usernameNudge');
+  nudge.classList.remove('nudge-visible');
+  setTimeout(() => { nudge.style.display = 'none'; }, 350);
+}
+
+function saveFromNudge() {
+  const name = document.getElementById('nudgeNameInput').value.trim();
+  if (!name || name.length < 2) {
+    document.getElementById('nudgeNameInput').focus();
+    return;
+  }
+  const selected = document.querySelector('#nudgeEmojiRow .nudge-emoji-opt.selected');
+  localStorage.setItem(SCREENNAME_KEY, name);
+  localStorage.setItem(EMOJI_KEY, selected ? selected.textContent : '');
+  migrateOrphanedStats(name);
+  updateSaveBtn();
+  syncToSupabase(name, loadState());
+  localStorage.setItem(NUDGE_DISMISSED_KEY, '1');
+  dismissUsernameNudge();
+}
+
 // --- Init ---
 
 function init() {
@@ -1030,6 +1082,7 @@ function init() {
   migrateOrphanedStats(getScreenname());
   updateSaveBtn();
   startGame();
+  setTimeout(maybeShowUsernameNudge, 2500);
 }
 
 init();
