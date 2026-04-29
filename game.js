@@ -922,7 +922,7 @@ async function showEndCard() {
   else                 message = "you're the weather master";
 
   const state = loadState();
-  document.getElementById('endScore').textContent = state.totalScore;
+  document.getElementById('endScore').textContent = sessionScore;
   document.getElementById('endPct').textContent = Math.round(pct * 100) + '%';
   document.getElementById('endMessage').textContent = message;
 
